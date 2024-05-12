@@ -27,7 +27,7 @@ logging.getLogger().addHandler(threaded_handler)
 logging.getLogger().debug('debug_msg', extra={'extra': 'value'})
 ```
 
-    {"logger": "root", "level": 10, "created": "2024-05-11T16:48:30.478645+00:00", "message": "debug_msg", "extra": "value"}
+    {"logger": "root", "level": 10, "created": "2024-05-12T11:43:19.171675+00:00", "message": "debug_msg", "extra": "value"}
 
 
 #### via config
@@ -75,5 +75,24 @@ logging.config.dictConfig(config)
 logging.getLogger().debug('debug_msg', extra={'extra': 'value'})
 ```
 
-    {"name": "root", "level": 10, "line": 39, "created": "2024-05-11T16:48:30.485113+00:00", "message": "debug_msg", "extra": "value"}
+    {"name": "root", "level": 10, "line": 39, "created": "2024-05-12T11:43:19.179082+00:00", "message": "debug_msg", "extra": "value"}
+
+
+### BelowLevelFilter
+Allows logs only below a specified level
+#### Example
+
+
+```python
+from logging_extension import BelowLevelFilter
+
+level_filter = BelowLevelFilter(level=logging.ERROR)
+logging.getLogger().addFilter(level_filter)
+logging.getLogger().addHandler(logging.StreamHandler())
+
+logging.getLogger().error('error_msg')
+logging.getLogger().warning('warning_msg')
+```
+
+    warning_msg
 
