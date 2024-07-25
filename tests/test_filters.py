@@ -1,6 +1,7 @@
 import logging.config
 import operator
 from unittest import TestCase
+from warnings import catch_warnings
 
 from src.logging_extension.filters import BelowLevelFilter, LevelFilter
 
@@ -90,3 +91,14 @@ class TestBelowLevelFilter(TestCase):
             logging.getLogger().warning('warning_msg')
         with self.assertNoLogs():
             logging.getLogger().error('error_msg')
+
+    def test_deprecated(self):
+        with catch_warnings(record=True) as w:
+            BelowLevelFilter(level=logging.ERROR)
+            class D(BelowLevelFilter): pass
+
+            self.assertTrue(issubclass(w[0].category, DeprecationWarning))
+            self.assertTrue(issubclass(w[1].category, DeprecationWarning))
+
+
+
